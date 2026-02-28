@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: karla, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #ffffff;
+    background-color: #000000;
+    text-align: left;
+}
+
+header {
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+ 
+    .hero-img {
+      max-width: 1800px;
+      max-height: 80vh;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+
+main {
+    max-width: 1700px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+footer {
+    background-color: #000000;
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+h1, h2, h3 {
+    font-family: 'Leaque', sans-serif;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
