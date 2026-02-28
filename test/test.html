@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tangkuban Perahu</title>
+  <style>
+    :root{
+      --bg: #0f0f12;
+      --panel: rgba(15,15,18,0.78);
+      --text: rgba(255,255,255,0.88);
+      --muted: rgba(255,255,255,0.62);
+      --gridLine: rgba(255,255,255,0.12);
+      --accent: #ff6a3d;
+      --teal: #19c6c6;
+      --gap: 20px;
+      --pad: 8px;
+      --max: 1200px;
+      --radius: 18px;
+      --shadow: 0 12px 40px rgba(0,0,0,0.5);
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* dezentes Layout-Grid als Hintergrund (wie im Screenshot) */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 1;
+      background:
+        repeating-linear-gradient(
+          to right,
+          rgba(255,255,255,0.10) 0,
+          rgba(255,255,255,0.10) calc((100vw - 16px - 220px) / 12),
+          transparent calc((100vw - 16px - 220px) / 12),
+          transparent calc((100vw - 16px - 220px) / 12 + 20px)
+        );
+      background-position: 8px 0;
+      mix-blend-mode: overlay;
+    }
+
+    /* Seitenlayout */
+    .page{
+      position: relative;
+      z-index: 2;
+    }
+
+    .container{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gap);
+    }
+
+    /* Linke, vertikale Titelspalte */
+    .rail{
+      grid-column: 1 / 3;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 24px 0;
+      pointer-events: none;
+    }
+    .rail .vertical{
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      letter-spacing: 0.22em;
+      font-weight: 800;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      font-size: clamp(16px, 1.2vw, 18px);
+    }
+
+    /* Header / Hero */
+    header{
+      position: relative;
+      min-height: 72vh;
+      display: grid;
+      align-items: end;
+      padding: 0;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-img{
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(15,15,18,0.10) 0%, rgba(15,15,18,0.78) 72%, rgba(15,15,18,1) 100%),
+        url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2200&q=80");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(0.85) contrast(1.05);
+      transform: scale(1.03);
+    }
+
+    .topnav{
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      left: 18px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 18px;
+      z-index: 3;
+    }
+    .topnav a{
+      color: rgba(255,255,255,0.78);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(8px);
+    }
+    .topnav a:hover{ border-color: rgba(255,255,255,0.22); }
+
+    .hero{
+      width: 100%;
+      padding: 0 0 36px 0;
+    }
+    .hero .container{
+      padding-top: 110px;
+      padding-bottom: 36px;
+    }
+    .hero h1{
+      grid-column: 3 / 11;
+      margin: 0 0 10px 0;
+      font-size: clamp(36px, 4.2vw, 64px);
+      line-height: 1.02;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 900;
+      text-shadow: 0 16px 40px rgba(0,0,0,0.45);
+    }
+    .hero p{
+      grid-column: 3 / 10;
+      margin: 0;
+      color: var(--muted);
+      max-width: 65ch;
+      font-size: 14px;
+      line-height: 1.65;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Sections */
+    section{
+      position: relative;
+      padding: 56px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-title{
+      grid-column: 3 / 7;
+      margin: 0 0 18px 0;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 22px;
+      color: rgba(255,255,255,0.82);
+    }
+    .section-text{
+      grid-column: 3 / 7;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Geografische Lage: Text + Globe */
+    .globe-wrap{
+      grid-column: 8 / 13;
+      align-self: start;
+      display: grid;
+      gap: 14px;
+      justify-items: start;
+    }
+    .globe{
+      width: min(360px, 100%);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255,255,255,0.18), transparent 55%),
+        url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+    .pin{
+      position: absolute;
+      left: 62%;
+      top: 60%;
+      width: 18px;
+      height: 18px;
+      transform: translate(-50%, -100%);
+      background: var(--accent);
+      border-radius: 999px 999px 999px 0;
+      transform: translate(-50%, -90%) rotate(-45deg);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+    }
+    .pin::after{
+      content:"";
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      top: 6px;
+      left: 6px;
+      transform: rotate(45deg);
+    }
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.25);
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+    .btn:hover{ border-color: rgba(255,255,255,0.26); }
+
+    /* Geologie: Volcano Diagram */
+    .geo-diagram{
+      grid-column: 7 / 13;
+      align-self: start;
+      padding: 18px;
+    }
+    .geo-diagram h3{
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+    }
+    .legend{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      margin-top: 10px;
+      color: rgba(255,255,255,0.65);
+      font-size: 12px;
+    }
+    .dot{
+      width: 10px; height: 10px; border-radius: 50%;
+      display: inline-block; margin-right: 6px;
+      background: var(--accent);
+    }
+    .dot.teal{ background: var(--teal); }
+    .dot.gray{ background: rgba(255,255,255,0.35); }
+
+    /* Vulkanische Aktivitaet: Vollbreites Bildband */
+    .band{
+      grid-column: 3 / 13;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      position: relative;
+      min-height: 260px;
+      background:
+        linear-gradient(to right, rgba(15,15,18,0.86), rgba(15,15,18,0.25)),
+        url("https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=2200&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+    .band .copy{
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      right: 18px;
+      max-width: 620px;
+    }
+    .band .copy h2{
+      margin: 0 0 12px 0;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 22px;
+    }
+    .band .copy p{
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* Mythos */
+    .myth{
+      grid-column: 3 / 11;
+      padding: 18px;
+    }
+    .myth h3{
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+    }
+    .myth p{
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    footer{
+      padding: 28px 0 40px 0;
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer .container{ align-items: center; }
+    footer .container div{ grid-column: 3 / 13; }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .rail{ display:none; }
+      .hero h1{ grid-column: 1 / 13; }
+      .hero p{ grid-column: 1 / 13; }
+      .section-title, .section-text, .globe-wrap, .geo-diagram, .band, .myth{
+        grid-column: 1 / 13;
+      }
+      .topnav{ justify-content: center; flex-wrap: wrap; }
+      body::before{ opacity: 0.65; }
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior: auto !important; }
+    }
+
+    html{ scroll-behavior: smooth; }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header id="top">
+      <div class="hero-img" aria-hidden="true"></div>
+
+      <nav class="topnav">
+        <a href="#geo">Geografische Lage</a>
+        <a href="#bau">Geologie</a>
+        <a href="#aktiv">Aktivitaet</a>
+        <a href="#mythos">Mythos</a>
+      </nav>
+
+      <div class="hero">
+        <div class="container">
+          <div class="rail">
+            <div class="vertical">Tangkuban Perahu</div>
+          </div>
+
+          <h1>Tangkuban Perahu</h1>
+          <p class="panel">
+            Der Tangkuban Perahu ist ein aktiver Vulkan in West-Java, Indonesien. Er liegt etwa 20 Kilometer noerdlich der Stadt Bandung und erreicht eine Hoehe von rund 2084 Metern. Sein Name bedeutet „umgedrehtes Boot“ und bezieht sich auf die charakteristische Form des Berges.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Geografische Lage -->
+    <section id="geo">
+      <div class="container">
+        <div class="rail">
+          <div class="vertical">Tangkuban Perahu</div>
+        </div>
+
+        <h2 class="section-title">Geografische Lage</h2>
+        <p class="section-text">
+          Der Vulkan befindet sich in der Naehe von Lembang in der Provinz West-Java. Er ist Teil des Sunda-Vulkanbogens, der durch die Subduktion der Indisch-Australischen Platte unter die Eurasische Platte entstanden ist.
+        </p>
+
+        <div class="globe-wrap">
+          <div class="globe" aria-label="Kugelkarte">
+            <div class="pin" title="West-Java"></div>
+          </div>
+
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Tangkuban+Perahu" target="_blank" rel="noopener">
+            Zu Google Maps
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Geologie und Aufbau -->
+    <section id="bau">
+      <div class="container">
+        <div class="rail">
+          <div class="vertical">Tangkuban Perahu</div>
+        </div>
+
+        <h2 class="section-title">Geologie und Aufbau</h2>
+        <p class="section-text">
+          Der Tangkuban Perahu besitzt mehrere Krater. Der bekannteste ist Kawah Ratu, ein grosser Hauptkrater mit Gasfahnen und Dampfaustritten. Weitere Krater sind unter anderem Kawah Upas und Kawah Domas.
+        </p>
+
+        <div class="geo-diagram panel">
+          <h3>Schichtvulkan (schematisch)</h3>
+
+          <!-- simples SVG Diagramm (ohne externe Dateien) -->
+          <svg viewBox="0 0 780 360" width="100%" height="auto" role="img" aria-label="Vulkan Diagramm">
+            <defs>
+              <linearGradient id="ash" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="rgba(255,255,255,0.22)"/>
+                <stop offset="1" stop-color="rgba(255,255,255,0.06)"/>
+              </linearGradient>
+              <linearGradient id="lava" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#ff6a3d"/>
+                <stop offset="1" stop-color="rgba(255,106,61,0.55)"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Boden -->
+            <rect x="0" y="265" width="780" height="95" fill="rgba(255,255,255,0.05)"/>
+            <rect x="0" y="260" width="780" height="5" fill="rgba(255,255,255,0.10)"/>
+
+            <!-- Vulkan Koerper -->
+            <path d="M80 270 L300 120 L390 90 L480 120 L700 270 Z" fill="url(#ash)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+
+            <!-- Krater -->
+            <path d="M330 120 Q390 95 450 120 Q390 130 330 120 Z" fill="rgba(0,0,0,0.35)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+
+            <!-- Magmaschlot -->
+            <path d="M380 270 L395 270 L410 135 Q395 120 380 135 Z" fill="url(#lava)" opacity="0.95"/>
+
+            <!-- Nebenaufstiege -->
+            <path d="M270 270 L285 270 L300 195 Q285 185 270 195 Z" fill="rgba(25,198,198,0.55)"/>
+            <path d="M510 270 L525 270 L540 210 Q525 200 510 210 Z" fill="rgba(25,198,198,0.55)"/>
+
+            <!-- Lavaausfluesse -->
+            <path d="M390 130 C420 155 440 175 462 210 C480 240 520 250 560 265" fill="none" stroke="#ff6a3d" stroke-width="10" stroke-linecap="round" opacity="0.75"/>
+            <path d="M385 135 C360 165 340 185 325 215 C312 240 280 252 250 265" fill="none" stroke="#ff6a3d" stroke-width="10" stroke-linecap="round" opacity="0.55"/>
+
+            <!-- Labels -->
+            <text x="24" y="45" fill="rgba(255,255,255,0.55)" font-size="14" letter-spacing="2">SCHEMA</text>
+            <text x="24" y="68" fill="rgba(255,255,255,0.70)" font-size="16" font-weight="700">Schichten aus Lava, Asche, Gestein</text>
+          </svg>
+
+          <div class="legend">
+            <span><span class="dot"></span> Lava / Ausfluss</span>
+            <span><span class="dot teal"></span> Nebenaufstieg</span>
+            <span><span class="dot gray"></span> Vulkanischer Koerper</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vulkanische Aktivitaet -->
+    <section id="aktiv">
+      <div class="container">
+        <div class="rail">
+          <div class="vertical">Tangkuban Perahu</div>
+        </div>
+
+        <div class="band">
+          <div class="copy">
+            <h2>Vulkanische Aktivitaet</h2>
+            <p>
+              Der Tangkuban Perahu ist weiterhin aktiv. In der Vergangenheit kam es wiederholt zu Ausbruechen, meist mit Explosionsereignissen und Gasemissionen. Aktivitaet zeigt sich oft durch Dampf, Schwefelgeruch und kleinere Eruptionen im Bereich der Krater.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mythos -->
+    <section id="mythos">
+      <div class="container">
+        <div class="rail">
+          <div class="vertical">Tangkuban Perahu</div>
+        </div>
+
+        <div class="myth panel">
+          <h3>Mythos</h3>
+          <p>
+            Hinter der markanten Silhouette verbirgt sich ein sagenumwobener Mythos: In einer Legende wird erklaert, warum der Berg wie ein umgedrehtes Boot aussieht. Diese Erzaehlung verbindet Landschaft, Liebe, Konflikt und die Vorstellung, dass die Natur sichtbare Spuren alter Ereignisse traegt.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div>© 2024 One Pager Demo. Bilder: Unsplash (Platzhalter).</div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -4,9 +4,17 @@
     box-sizing: border-box;
 }
 
+.container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+    padding: 0 8px;
+}
+
+
 body {
     font-family: karla, sans-serif;
-    font-size: 16px;
+    font-size: 30px;
     line-height: 1.6;
     color: #ffffff;
     background-color: #000000;
@@ -16,22 +24,51 @@ body {
 header {
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
-}
- 
-    .hero-img {
-      max-width: 1800px;
-      max-height: 80vh;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      display: block;
-    }
 
+}
+
+.background-vulcano {
+    width: 100%;
+    height: 100vh;
+    background-image: url('fairuz-naufal-zaki-r7KW7D7ZMug-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.vulkan-image {
+    min-height: 80vh;
+     width: 100%;
+    /* 80% vom Bildschirm */
+    width: 100%;
+    background-repeat: no-repeat;
+    height: auto;
+    object-fit: cover;
+    display: block;
+
+}
+
+.hero-img {
+    max-width: 1800px;
+    max-height: 80vh;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+p {
+ padding-left: 150px;
+padding-right: 150px;}
+
+.p-2 {
+    padding-left: 150px;
+    padding-right: 700px;
+}
 
 main {
-    max-width: 1700px;
-    margin: 0 auto;
+    max-width: 2000px;
+    margin: auto;
     padding: 2rem 1rem;
 }
 
@@ -42,8 +79,14 @@ footer {
     margin-top: 2rem;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
+    padding-left: 150px;
+    padding-right: 150px;
+    grid-column: 3 / 11;
     font-family: 'Leaque', sans-serif;
+    font-size: 64px;
     margin-bottom: 1rem;
     font-weight: 600;
 }
@@ -56,3 +99,5 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+
