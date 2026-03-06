@@ -65,11 +65,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const steps = Array.from(document.querySelectorAll(".legend-step"));
   const legendText = document.getElementById("legendText");
 
+  // earth element for 3‑D effect
+  const earthImg = document.querySelector('.erde');
+
+  function updateEarth() {
+    if (!earthImg) return;
+    const progress = Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * 2))); // slower animation
+    const rightValue = -85 + progress * 85; // from -85% (15% visible) to 0% (fully in)
+    earthImg.style.right = `${rightValue}%`;
+  }
+
   updateCurrentSection();
+  updateEarth();
 
   if (!scrolly || !slides.length || !images.length || !steps.length || !legendText) {
-    window.addEventListener("scroll", updateCurrentSection, { passive: true });
-    window.addEventListener("resize", updateCurrentSection);
+    window.addEventListener("scroll", () => {
+      updateCurrentSection();
+      updateEarth();
+    }, { passive: true });
+    window.addEventListener("resize", () => {
+      updateCurrentSection();
+      updateEarth();
+    });
     return;
   }
 
@@ -140,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function onScroll() {
     updateCurrentSection();
     updateScrolly();
+    updateEarth();
   }
 
   setText(0);

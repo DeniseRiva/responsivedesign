@@ -10,7 +10,7 @@ html {
 
 body {
   font-family: Karla, sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.7;
   color: #ffffff;
   background-color: #000000;
@@ -25,7 +25,7 @@ img {
 .container {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 0 24px;
 }
 
@@ -190,10 +190,12 @@ main{
 }
 
 h1,h2{
-  font-family:Arial,sans-serif;
+  font-family:karla, sans-serif;
   font-weight:700;
   line-height:1.12;
   margin-bottom:20px;
+    text-transform:uppercase;
+
 }
 
 h1{font-size:4rem;}
@@ -219,6 +221,33 @@ p{
   width:100%;
   height:auto;
 }
+
+/* ---------------- Erde ---------------- */
+
+#geografie {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.erde {
+  position: absolute;
+  right: -85%;
+  top: 0;
+  width: 70%;
+  height: 100%;
+  background-image: url('./earth.png');
+  background-size: cover;
+  background-position: left center;
+  transition: right .1s ease-out;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.erde img {
+  display: none; /* hide the img tag since we use background */
+}
+
 
 /* ---------------- ACTIVITY ---------------- */
 
@@ -329,37 +358,45 @@ p{
 .legend-text-5,
 .legend-text-6 {
   display:block;
+  position:absolute;
+  font-weight:400;
+  letter-spacing:0.02em;
+  font-family:Karla, sans-serif;
+  max-width:30%;
+  background:rgba(0, 0, 0, 0.7);
+  padding:1rem 1.2rem;
 }
 
 .legend-text-1 {
-  font-weight:400;
-  letter-spacing:0.02em;
-  justify-content: center;
+  top:10%;
+  left:10%;
 }
 
 .legend-text-2 {
-  font-weight:400;
-  letter-spacing:0.02em;
+  top:10%;
+  left:50%;
+  transform:translateX(-50%);
 }
 
 .legend-text-3 {
-  font-weight:400;
-  letter-spacing:0.02em;
+  top:10%;
+  right:10%;
 }
 
 .legend-text-4 {
-  font-weight:400;
-  letter-spacing:0.02em;
+  bottom:20px;
+  left:20px;
 }
 
 .legend-text-5 {
-  font-weight:400;
-  letter-spacing:0.02em;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
 }
 
 .legend-text-6 {
-  font-weight:400;
-  letter-spacing:0.02em;
+  bottom:20px;
+  right:20px;
 }
 
 .legend-track{
