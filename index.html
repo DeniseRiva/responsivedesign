@@ -1,66 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tankuban Perahu</title>
+  <title>Tangkuban Perahu</title>
   <link rel="stylesheet" href="style.css" />
-
 </head>
-
 <body>
-  <header>
-    <nav>
-      <img class="hero-img"
-        src="https://images.unsplash.com/photo-1625283895528-dfdccca0fdba?q=80&w=1974&auto=format&fit=max&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Tangkuban Perahu" />
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">Tangkuban Perahu</div>
+
+      <nav class="desktop-nav">
+        <a href="#intro" class="nav-link active">Home</a>
+        <a href="#geografie" class="nav-link">Geografie</a>
+        <a href="#geologie" class="nav-link">Geologie</a>
+        <a href="#aktivitaet" class="nav-link">Aktivität</a>
+        <a href="#mythos" class="nav-link">Mythos</a>
+      </nav>
+
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        aria-controls="mobileNav"
+      >
+        ☰
+      </button>
+    </div>
+
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="#intro" class="mobile-link active">Home</a>
+      <a href="#geografie" class="mobile-link">Geografie</a>
+      <a href="#geologie" class="mobile-link">Geologie</a>
+      <a href="#aktivitaet" class="mobile-link">Aktivität</a>
+      <a href="#mythos" class="mobile-link">Mythos</a>
     </nav>
   </header>
 
-  <main>
+  <section class="hero" id="intro">
+    <img
+      class="hero-img"
+      src="https://images.unsplash.com/photo-1625283895528-dfdccca0fdba?q=80&w=1974&auto=format&fit=max&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      alt="Tangkuban Perahu"
+    />
 
+    <div class="hero-overlay"></div>
 
-    <h1>Tangkuban Perahu</h1>
+    <div class="hero-left-title">
+      <span>TANGKUBAN PERAHU</span>
     </div>
-    <strong>
-      <p> Der Tangkuban Perahu ist ein aktiver Vulkan in West-Java, Indonesien. Er liegt etwa 20 Kilometer nördlich der
+
+    <aside class="side-nav">
+      <a href="#geografie" class="side-link">Geografie</a>
+      <a href="#geologie" class="side-link">Geologie</a>
+      <a href="#aktivitaet" class="side-link">Aktivität</a>
+      <a href="#mythos" class="side-link">Mythos</a>
+    </aside>
+  </section>
+
+  <main>
+    <section class="container content-section">
+      <p class="lead">
+        Der Tangkuban Perahu ist ein aktiver Vulkan in West-Java, Indonesien. Er liegt etwa 20 Kilometer nördlich der
         Stadt Bandung und erreicht eine Höhe von rund 2084 Metern. Sein Name bedeutet „umgedrehtes Boot“ und bezieht
         sich auf die charakteristische Form des Berges.
       </p>
-    </strong>
+    </section>
 
-    <h1>Geografische Lage</h1>
-    <div style="text-align: left;">
-
+    <section class="container content-section" id="geografie">
+      <h2>Geografische Lage</h2>
       <p>
         Der Vulkan befindet sich in der Nähe von Lembang in der Provinz West-Java. Er ist Teil des Sunda-Vulkanbogens,
         der durch die Subduktion der Indisch-Australischen Platte unter die Eurasische Platte entstanden ist.
       </p>
+    </section>
 
-      <h1>Geologie und Aufbau</h1>
-      <p>Der Vulkan besitzt mehrere Krater. Der bekannteste ist Kawah Ratu, ein großer Hauptkrater mit sichtbarer Dampf-
+    <section class="container content-section" id="geologie">
+      <h2>Geologie und Aufbau</h2>
+      <p>
+        Der Vulkan besitzt mehrere Krater. Der bekannteste ist Kawah Ratu, ein grosser Hauptkrater mit sichtbarer Dampf-
         und Gasentwicklung.
-    </div>
-    </p>
-    <div class="vulkan-image">
-      <img src="./vulkan.png">
-    </div>
-    <div class="background-vulcano">
-      <h1 style="background-color: #00000066; margin-bottom: 0%;">Vulkanische Aktivität</h1>
-      <p style="background-color: #00000066; width: 60%; text-align: left;">      Der Tangkuban Perahu ist weiterhin aktiv. In der Vergangenheit kam es wiederholt zu Ausbrüchen, meist in Form
-        von kleineren Explosionen mit Asche- und Gasausstoß.
-        Eine größere Aktivität wurde zuletzt im Jahr 2019 registriert. Dabei wurden Aschewolken freigesetzt, was
-        zeitweise zu Sperrungen im Bereich des Kraters führte. </p>
+      </p>
+    </section>
+
+    <section class="container vulkan-section">
+      <img src="./vulkan.png" alt="Illustration des Vulkans" class="vulkan-image" />
+    </section>
+
+    <section class="activity-section" id="aktivitaet">
+      <div class="activity-overlay-box">
+        <div class="activity-content container">
+          <h2>Vulkanische Aktivität</h2>
+          <p>
+            Der Tangkuban Perahu ist weiterhin aktiv. In der Vergangenheit kam es wiederholt zu Ausbrüchen, meist in Form
+            von kleineren Explosionen mit Asche- und Gasausstoss. Eine groessere Aktivität wurde zuletzt im Jahr 2019
+            registriert. Dabei wurden Aschewolken freigesetzt, was zeitweise zu Sperrungen im Bereich des Kraters führte.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container content-section" id="mythos">
+      <h2>Mythos</h2>
+      <p>
+        Der Tangkuban Perahu ist nicht nur ein Vulkan, sondern auch Teil einer bekannten indonesischen Legende. Der Name
+        „umgedrehtes Boot“ geht auf die Erzählung von Sangkuriang zurück, in der ein Boot eine zentrale Rolle spielt.
+        So verbindet der Berg Natur, Geschichte und Mythos auf eindrückliche Weise.
+      </p>
+    </section>
+    <section class="legend-scrolly" id="legende">
+  <div class="legend-scrolly__sticky">
+    <div class="legend-scrolly__slides">
+      <div class="legend-slide">
+        <div class="legend-slide__image" style="background-image: url('./ChatGPT Image 21. Feb. 2026, 13_45_18.png');"></div>
+      </div>
+      <div class="legend-slide">
+        <div class="legend-slide__image" style="background-image: url('./ChatGPT Image 21. Feb. 2026, 13_41_00.png');"></div>
+      </div>
+      <div class="legend-slide">
+        <div class="legend-slide__image" style="background-image: url('./ChatGPT Image 21. Feb. 2026, 13_42_45.png');"></div>
+      </div>
+      <div class="legend-slide">
+        <div class="legend-slide__image" style="background-image: url('./ChatGPT Image 21. Feb. 2026, 13_47_05.png');"></div>
+      </div>
+      <div class="legend-slide">
+        <div class="legend-slide__image" style="background-image: url('./ChatGPT Image 21. Feb. 2026, 13_38_13.png');"></div>
+      </div>
+      <div class="legend-slide">
+        <div class="legend-slide__image" style="background-image: url('./ChatGPT Image 21. Feb. 2026, 13_49_03.png');"></div>
+      </div>
     </div>
 
+    <div class="legend-overlay">
+      <div class="legend-textbox">
+        <p id="legendText">
+          Ein männlicher Gott wird zur Strafe in einen Hund namens Tumang verwandelt. Eines Tages fällt einer Frau beim Weben ein Werkzeug herunter, und sie schwört, den Finder zu heiraten. Tumang, der nun ein Hund ist, bringt es zurück – und sie hält ihr Versprechen.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend-track">
+    <div class="legend-step"></div>
+    <div class="legend-step"></div>
+    <div class="legend-step"></div>
+    <div class="legend-step"></div>
+    <div class="legend-step"></div>
+    <div class="legend-step"></div>
+  </div>
+</section>
+            ></div>
+  
+    </section>
   </main>
 
   <footer>
-    <p>&copy; 2024 My Website. All rights reserved.</p>
+    <div class="container">
+      <p>© 2024 My Website. All rights reserved.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
 </body>
-
 </html>

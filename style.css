@@ -1,103 +1,514 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Karla, sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #ffffff;
+  background-color: #000000;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
 
 .container {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 20px;
-    padding: 0 8px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
+/* ---------------- TOPBAR ---------------- */
 
-body {
-    font-family: karla, sans-serif;
-    font-size: 30px;
-    line-height: 1.6;
-    color: #ffffff;
-    background-color: #000000;
-    text-align: left;
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-header {
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+.topbar-inner {
+  width:100%;
+  max-width:1400px;
+  margin:0 auto;
+  padding:16px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.background-vulcano {
-    width: 100%;
-    height: 100vh;
-    background-image: url('fairuz-naufal-zaki-r7KW7D7ZMug-unsplash.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+.logo {
+  font-size:1rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
 }
 
-.vulkan-image {
-    min-height: 80vh;
-     width: 100%;
-    /* 80% vom Bildschirm */
-    width: 100%;
-    background-repeat: no-repeat;
-    height: auto;
-    object-fit: cover;
-    display: block;
+.desktop-nav {
+  display:flex;
+  align-items:center;
+  gap:32px;
+}
 
+.nav-link,
+.mobile-link,
+.side-link {
+  color:#fff;
+  text-decoration:none;
+  position:relative;
+  display:inline-block;
+  transform-origin:left center;
+  transition:transform .25s ease;
+}
+
+.nav-link::after,
+.mobile-link::after,
+.side-link::after {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-8px;
+  width:0;
+  height:3px;
+  background:#cc7400;
+  transition:width .25s ease;
+}
+
+.nav-link:hover,
+.mobile-link:hover,
+.side-link:hover {
+  transform:scale(1.06);
+}
+
+.nav-link.active,
+.mobile-link.active,
+.side-link.active {
+  transform:scale(1.14);
+}
+
+.nav-link.active::after,
+.mobile-link.active::after,
+.side-link.active::after {
+  width:100%;
+}
+
+.menu-toggle {
+  display:none;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.8rem;
+  cursor:pointer;
+}
+
+.mobile-nav {
+  display:none;
+  flex-direction:column;
+  gap:18px;
+  padding:0 24px 20px;
+  background:#000;
+}
+
+.mobile-nav.open {
+  display:flex;
+}
+
+/* ---------------- HERO ---------------- */
+
+.hero {
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:720px;
+  overflow:hidden;
 }
 
 .hero-img {
-    max-width: 1800px;
-    max-height: 80vh;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    display: block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-p {
- padding-left: 150px;
-padding-right: 150px;}
-
-.p-2 {
-    padding-left: 150px;
-    padding-right: 700px;
+.hero-overlay {
+  position:absolute;
+  inset:0;
+  background:
+  linear-gradient(to right,rgba(0,0,0,.45),rgba(0,0,0,.08)),
+  linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.18));
 }
 
-main {
-    max-width: 2000px;
-    margin: auto;
-    padding: 2rem 1rem;
+.hero-left-title {
+  position:absolute;
+  left:40px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:3;
 }
 
-footer {
-    background-color: #000000;
-    padding: 1rem;
-    text-align: center;
-    margin-top: 2rem;
+.hero-left-title span {
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  font-size:4.6rem;
+  font-weight:700;
 }
 
-h1,
-h2,
-h3 {
-    padding-left: 150px;
-    padding-right: 150px;
-    grid-column: 3 / 11;
-    font-family: 'Leaque', sans-serif;
-    font-size: 64px;
-    margin-bottom: 1rem;
-    font-weight: 600;
+.side-nav {
+  position:absolute;
+  top:120px;
+  right:48px;
+  display:flex;
+  flex-direction:column;
+  gap:84px;
+  z-index:3;
 }
 
-a {
-    color: #0066cc;
-    text-decoration: none;
+.side-link {
+  font-size:1.9rem;
 }
 
-a:hover {
-    text-decoration: underline;
+/* ---------------- CONTENT ---------------- */
+
+main{
+  width:100%;
 }
 
+.content-section{
+  padding-top:72px;
+}
 
+h1,h2{
+  font-family:Arial,sans-serif;
+  font-weight:700;
+  line-height:1.12;
+  margin-bottom:20px;
+}
+
+h1{font-size:4rem;}
+h2{font-size:2.6rem;}
+
+p{
+  max-width:900px;
+  margin-bottom:18px;
+}
+
+.lead{
+  font-size:1.18rem;
+  font-weight:700;
+}
+
+/* ---------------- VULKAN ---------------- */
+
+.vulkan-section{
+  padding:24px 0;
+}
+
+.vulkan-image{
+  width:100%;
+  height:auto;
+}
+
+/* ---------------- ACTIVITY ---------------- */
+
+.activity-section{
+  width:100%;
+  min-height:900px;
+  background:url("fairuz-naufal-zaki-r7KW7D7ZMug-unsplash.jpg") center/cover;
+  padding:56px 0;
+  display:flex;
+  align-items:flex-start;
+}
+
+.activity-overlay-box{
+  width:min(700px,100%);
+  background:rgba(0,0,0,.42);
+  margin-left:24px;
+  padding:28px 0;
+}
+
+.activity-content h2{
+  font-size:3rem;
+}
+
+/* ---------------- SCROLLYTELLING ---------------- */
+
+.legend-scrolly{
+  position:relative;
+  width:100%;
+  background:#0b0907;
+  color:#f3eadb;
+}
+
+.legend-scrolly__sticky{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+}
+
+.legend-scrolly__slides{
+  position:absolute;
+  inset:0;
+}
+
+.legend-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  z-index:1;
+  pointer-events:none;
+  transition:opacity .8s ease;
+}
+
+.legend-slide__image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  transform:scale(1.05);
+  transform-origin:center;
+  will-change:transform,filter;
+  filter:brightness(.78) saturate(.98);
+  transition:transform .9s ease, filter .9s ease;
+}
+
+.legend-slide::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(8,6,4,.08),
+    rgba(8,6,4,.28)
+  );
+}
+
+.legend-overlay{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:flex;
+  align-items:flex-end;
+  padding:4vw;
+}
+
+.legend-textbox{
+  max-width:560px;
+  background:rgba(18,13,9,.78);
+  padding:1rem 1.2rem;
+}
+
+#legendText{
+  margin:0;
+  max-width:none;
+  font-size:1rem;
+  line-height:1.7;
+  color:rgba(243,234,219,.92);
+  transition:opacity .25s ease;
+}
+
+.legend-text-1,
+.legend-text-2,
+.legend-text-3,
+.legend-text-4,
+.legend-text-5,
+.legend-text-6 {
+  display:block;
+}
+
+.legend-text-1 {
+  font-weight:400;
+  letter-spacing:0.02em;
+  justify-content: center;
+}
+
+.legend-text-2 {
+  font-weight:400;
+  letter-spacing:0.02em;
+}
+
+.legend-text-3 {
+  font-weight:400;
+  letter-spacing:0.02em;
+}
+
+.legend-text-4 {
+  font-weight:400;
+  letter-spacing:0.02em;
+}
+
+.legend-text-5 {
+  font-weight:400;
+  letter-spacing:0.02em;
+}
+
+.legend-text-6 {
+  font-weight:400;
+  letter-spacing:0.02em;
+}
+
+.legend-track{
+  position:relative;
+}
+
+.legend-step{
+  height:100vh;
+}
+
+.legend-step:last-child{
+  height:120vh;
+}
+
+/* ---------------- FOOTER ---------------- */
+
+footer{
+  padding:32px 0;
+  text-align:center;
+}
+
+footer p{
+  margin-bottom:0;
+  max-width:none;
+  font-size:.95rem;
+}
+
+/* ---------------- TABLET ---------------- */
+
+@media (max-width:1024px){
+
+body{font-size:17px;}
+
+.desktop-nav{gap:20px;}
+
+.hero{min-height:640px;}
+
+.hero-left-title span{font-size:3.2rem;}
+
+.side-nav{right:28px;gap:52px;}
+
+.side-link{font-size:1.45rem;}
+
+h1{font-size:3rem;}
+h2{font-size:2.2rem;}
+
+.activity-section{min-height:700px;}
+
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width:768px){
+
+body{
+font-size:16px;
+line-height:1.6;
+}
+
+.container{
+padding:0 16px;
+}
+
+.desktop-nav{
+display:none;
+}
+
+.menu-toggle{
+display:block;
+}
+
+.mobile-nav{
+width:100%;
+}
+
+.hero{
+height:72vh;
+min-height:520px;
+}
+
+.hero-left-title{
+left:14px;
+bottom:18px;
+top:auto;
+transform:none;
+}
+
+.hero-left-title span{
+writing-mode:horizontal-tb;
+transform:none;
+font-size:2rem;
+}
+
+.side-nav{
+display:none;
+}
+
+.activity-section{
+min-height:auto;
+padding:0;
+background-size:100% auto;
+background-position:top center;
+}
+
+.activity-overlay-box{
+width:100%;
+margin-left:0;
+padding:20px 0;
+background:rgba(0,0,0,.55);
+margin-top:min(68vw,320px);
+}
+
+.legend-overlay{
+padding:1rem;
+}
+
+.legend-textbox{
+max-width:100%;
+padding:.9rem 1rem;
+}
+
+.legend-step{
+height:90vh;
+}
+
+}
+
+/* ---------------- SMALL MOBILE ---------------- */
+
+@media (max-width:480px){
+
+.topbar-inner{
+padding:14px 16px;
+}
+
+.logo{
+font-size:.85rem;
+}
+
+.hero{
+height:68vh;
+min-height:460px;
+}
+
+.hero-left-title span{
+font-size:1.6rem;
+}
+
+h1{font-size:1.9rem;}
+h2{font-size:1.55rem;}
+
+}
