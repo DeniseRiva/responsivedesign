@@ -8,6 +8,14 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --layout-max: 1200px;
+  --layout-pad: clamp(16px, 2.2vw, 28px);
+  --layout-gap: clamp(16px, 2.4vw, 32px);
+  --section-gap: clamp(44px, 7vw, 84px);
+  --text-measure: 72ch;
+}
+
 body {
   font-family: Karla, sans-serif;
   font-size: 20px;
@@ -15,6 +23,9 @@ body {
   color: #ffffff;
   background-color: #000000;
   overflow-x: hidden;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 img {
@@ -24,9 +35,9 @@ img {
 
 .container {
   width: 100%;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 0 24px;
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  padding: 0 var(--layout-pad);
 }
 button {
   background-color: #D14836;
@@ -59,10 +70,11 @@ button:hover {
   width:100%;
   max-width:1400px;
   margin:0 auto;
-  padding:16px 24px;
-  display:flex;
+  padding:16px var(--layout-pad);
+  display:grid;
+  grid-template-columns:auto 1fr auto;
   align-items:center;
-  justify-content:space-between;
+  gap:var(--layout-gap);
 }
 
 .logo {
@@ -75,6 +87,8 @@ button:hover {
 .desktop-nav {
   display:flex;
   align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
   gap:32px;
 }
 
@@ -198,17 +212,50 @@ button:hover {
 
 main{
   width:100%;
+  display:grid;
+  grid-template-columns:minmax(0, 1fr);
+  row-gap:var(--section-gap);
 }
 
 .content-section{
-  padding-top:72px;
+  padding-top:clamp(36px, 5vw, 64px);
+}
+
+main > section {
+  width: 100%;
+}
+
+.container.content-section,
+.content-section > .container {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--layout-gap);
+  align-content: start;
+}
+
+.container.content-section > h1,
+.container.content-section > h2,
+.container.content-section > p,
+.container.content-section > button,
+.container.content-section > .lead,
+.content-section > .container > h1,
+.content-section > .container > h2,
+.content-section > .container > p,
+.content-section > .container > button,
+.content-section > .container > .lead {
+  grid-column: 2 / span 9;
+}
+
+.container.content-section > button,
+.content-section > .container > button {
+  justify-self: start;
 }
 
 h1,h2{
   font-family:karla, sans-serif;
   font-weight:700;
   line-height:1.12;
-  margin-bottom:20px;
+  margin-bottom:16px;
     text-transform:uppercase;
 
 }
@@ -217,13 +264,15 @@ h1{font-size:4rem;}
 h2{font-size:2.6rem;}
 
 p{
-  max-width:900px;
-  margin-bottom:18px;
+  max-width:var(--text-measure);
+  margin-bottom:20px;
 }
 
 .lead{
   font-size:1.18rem;
   font-weight:700;
+  max-width:var(--text-measure);
+  line-height:1.6;
 }
 
 /* ---------------- VULKAN ---------------- */
@@ -311,6 +360,7 @@ p{
   background:rgba(0,0,0,.42);
   margin-left:24px;
   padding:28px 0;
+  border-radius:4px;
 }
 
 .activity-content h2{
@@ -482,6 +532,7 @@ p{
   max-width:560px;
   background:rgba(18,13,9,.78);
   padding:1rem 1.2rem;
+  border-radius:4px;
 }
 
 #legendText{
@@ -576,6 +627,24 @@ body{font-size:17px;}
 
 .desktop-nav{gap:20px;}
 
+.container.content-section,
+.content-section > .container {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.container.content-section > h1,
+.container.content-section > h2,
+.container.content-section > p,
+.container.content-section > button,
+.container.content-section > .lead,
+.content-section > .container > h1,
+.content-section > .container > h2,
+.content-section > .container > p,
+.content-section > .container > button,
+.content-section > .container > .lead {
+  grid-column: 1 / -1;
+}
+
 .hero{min-height:0;}
 
 .hero-left-title span{font-size:2.6rem;}
@@ -586,6 +655,8 @@ body{font-size:17px;}
 
 h1{font-size:3rem;}
 h2{font-size:2.2rem;}
+
+.content-section{padding-top:clamp(28px, 5vw, 48px);}
 
 .activity-section{min-height:700px;}
 
@@ -602,6 +673,38 @@ line-height:1.6;
 
 .container{
 padding:0 16px;
+}
+
+.content-section{
+  padding-top:clamp(20px, 4vw, 32px);
+}
+
+main {
+  row-gap: clamp(28px, 7vw, 52px);
+}
+
+.topbar-inner {
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.container.content-section,
+.content-section > .container {
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 0;
+}
+
+.container.content-section > h1,
+.container.content-section > h2,
+.container.content-section > p,
+.container.content-section > button,
+.container.content-section > .lead,
+.content-section > .container > h1,
+.content-section > .container > h2,
+.content-section > .container > p,
+.content-section > .container > button,
+.content-section > .container > .lead {
+  grid-column: 1 / -1;
 }
 
 .content-section{
