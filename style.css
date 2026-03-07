@@ -145,15 +145,15 @@ button:hover {
 
 .hero {
   position:relative;
-  width:100vw;
+  width:100%;
   height:100vh;
-  min-height:720px;
+  min-height:0;
   overflow:hidden;
 }
 
 .hero-img {
-  width:100vw;
-  height:100vh;
+  width:100%;
+  height:100%;
   object-fit:cover;
 }
 
@@ -176,7 +176,7 @@ button:hover {
 .hero-left-title span {
   writing-mode:vertical-rl;
   transform:rotate(180deg);
-  font-size:4rem;
+  font-size:clamp(2.4rem, 4.2vw, 3.3rem);
   font-weight:700;
 }
 
@@ -277,13 +277,14 @@ p{
 
 .erde {
   position: absolute;
-  right: -85%;
-  top: 0;
-  width: 70%;
+  right: -30%;
+  top: 60px;
+  width: 65%;
   height: 100%;
   background-image: url('./earth.png');
-  background-size: cover;
-  background-position: left center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center right;
   transition: right .1s ease-out;
   z-index: -1;
   pointer-events: none;
@@ -314,6 +315,102 @@ p{
 
 .activity-content h2{
   font-size:3rem;
+}
+
+@media (min-width: 769px) {
+  .activity-section {
+    min-height: 150vh !important;
+    height: 150vh !important;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .activity-overlay-box {
+    width: 100%;
+    margin-left: 0;
+    padding: 28px 0;
+    background: rgba(0,0,0,.55);
+    margin-top: 75vh;
+    opacity: 0;
+    transform: translateY(80px);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  }
+
+  .activity-overlay-box.slide-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #krater,
+  #schichten {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s linear;
+    will-change: transform, opacity;
+  }
+
+  #krater.slide-in,
+  #schichten.slide-in {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .vulkan-section {
+    min-height: 160vh;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: clip;
+    z-index: 1;
+  }
+
+  .vulkan-picture {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+  }
+
+  .vulkan-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #krater {
+    top: 20%;
+    right: 5%;
+    bottom: auto;
+    transform: translateY(90px);
+    max-width: 320px;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  #schichten {
+    bottom: 15%;
+    left: 5%;
+    top: auto;
+    right: auto;
+    transform: translateY(90px);
+    max-width: 420px;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  #krater.slide-in,
+  #schichten.slide-in {
+    transform: translateY(0);
+  }
 }
 
 /* ---------------- SCROLLYTELLING ---------------- */
@@ -396,25 +493,24 @@ p{
   transition:opacity .25s ease;
 }
 
-.legend-text-1,
-.legend-text-2,
-.legend-text-3,
-.legend-text-4,
-.legend-text-5,
-.legend-text-6 {
+.legend-text {
   display:block;
   position:absolute;
   font-weight:400;
   letter-spacing:0.02em;
   font-family:Karla, sans-serif;
-  max-width:30%;
-  background:rgba(0, 0, 0, 0.7);
+  width: clamp(300px, 34vw, 560px);
+  max-width: none;
+  background:rgba(0, 0, 0, 0.35);
   padding:1rem 1.2rem;
+  transition: top 0.8s ease, left 0.8s ease, transform 0.8s ease, opacity 0.4s ease;
+  will-change: top, left, transform;
 }
 
 .legend-text-1 {
   top:10%;
   left:10%;
+  transform:translateX(0);
 }
 
 .legend-text-2 {
@@ -425,23 +521,26 @@ p{
 
 .legend-text-3 {
   top:10%;
-  right:10%;
+  left:90%;
+  transform:translateX(-100%);
 }
 
 .legend-text-4 {
-  bottom:20px;
-  left:20px;
+  top:68%;
+  left:10%;
+  transform:translateX(0);
 }
 
 .legend-text-5 {
-  bottom:20px;
+  top:68%;
   left:50%;
   transform:translateX(-50%);
 }
 
 .legend-text-6 {
-  bottom:20px;
-  right:20px;
+  top:68%;
+  left:90%;
+  transform:translateX(-100%);
 }
 
 .legend-track{
@@ -477,9 +576,9 @@ body{font-size:17px;}
 
 .desktop-nav{gap:20px;}
 
-.hero{min-height:640px;}
+.hero{min-height:0;}
 
-.hero-left-title span{font-size:3.2rem;}
+.hero-left-title span{font-size:2.6rem;}
 
 .side-nav{right:28px;gap:52px;}
 
@@ -503,6 +602,16 @@ line-height:1.6;
 
 .container{
 padding:0 16px;
+}
+
+.content-section{
+  position: relative;
+  z-index: 10;
+}
+
+.activity-section{
+  position: relative;
+  z-index: 10;
 }
 
 .desktop-nav{
@@ -539,11 +648,21 @@ font-size:2rem;
 display:none;
 }
 
+.erde {
+  top: 60px;
+  width: 95%;
+}
+
 .activity-section{
-min-height:auto;
+min-height: 130vh;
 padding:0;
-background-size:100% auto;
-background-position:top center;
+background-size:cover;
+background-position:center;
+background-attachment: fixed;
+background-repeat:no-repeat;
+position: relative;
+display: flex;
+align-items: flex-end;
 }
 
 .activity-overlay-box{
@@ -551,11 +670,27 @@ width:100%;
 margin-left:0;
 padding:20px 0;
 background:rgba(0,0,0,.55);
-margin-top:min(68vw,320px);
+margin-top: 0;
+}
+
+.activity-overlay-box:not(.slide-in){
+transform: translateY(120px);
+opacity: 0;
+}
+
+.activity-overlay-box.slide-in{
+transform: translateY(0);
+opacity: 1;
+transition: transform 1s ease-out, opacity 1s ease-out;
 }
 
 .legend-overlay{
 padding:1rem;
+}
+
+.legend-overlay.align-top {
+  align-items: flex-start;
+  padding-top: 15vh;
 }
 
 .legend-textbox{
@@ -565,6 +700,120 @@ padding:.9rem 1rem;
 
 .legend-step{
 height:90vh;
+}
+
+.activity-content h2{
+  font-size:1.8rem;
+}
+
+.vulkan-section{
+  min-height: 160vh !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  overflow: clip !important;
+  z-index: 1 !important;
+}
+
+.vulkan-picture{
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  z-index: 0 !important;
+}
+
+.vulkan-picture img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+#krater,
+#schichten {
+  position: absolute !important;
+  z-index: 10 !important;
+  opacity: 0 !important;
+  transform: translateY(80px) !important;
+  max-width: 200px !important;
+  background: rgba(0, 0, 0, 0.15) !important;
+  padding: 12px 16px !important;
+  border-radius: 4px !important;
+  visibility: hidden !important;
+}
+
+#krater.slide-in,
+#schichten.slide-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  visibility: visible !important;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out !important;
+}
+
+#krater {
+  top: 20% !important;
+  right: 5% !important;
+  bottom: auto !important;
+}
+
+#schichten {
+  bottom: 15% !important;
+  left: 5% !important;
+  top: auto !important;
+  right: auto !important;
+  max-width: 250px !important;
+}
+
+.legend-text-1,
+.legend-text-2,
+.legend-text-3,
+.legend-text-4,
+.legend-text-5,
+.legend-text-6 {
+  width: 90vw;
+  max-width: 90vw;
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.legend-text-1 {
+  top: 65%;
+  left:25%;
+}
+
+.legend-text-2 {
+  top:15%;
+  left:65%;
+  transform:translateX(-50%);
+}
+
+.legend-text-3 {
+  top:60%;
+  right:0%;
+}
+
+.legend-text-4 {
+  top:15%;
+  left:20px;
+}
+
+.legend-text-5 {
+  top: 15%;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.legend-text-6 {
+  top:15%;
+  right:20px;
 }
 
 }

@@ -64,14 +64,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const images = Array.from(document.querySelectorAll(".legend-slide__image"));
   const steps = Array.from(document.querySelectorAll(".legend-step"));
   const legendText = document.getElementById("legendText");
+  const legendOverlay = document.querySelector(".legend-overlay");
 
   // earth element for 3‑D effect
   const earthImg = document.querySelector('.erde');
 
   function updateEarth() {
     if (!earthImg) return;
-    const progress = Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * 2))); // slower animation
-    const rightValue = -85 + progress * 85; // from -85% (15% visible) to 0% (fully in)
+    const isMobile = window.innerWidth <= 768;
+    const progressRange = isMobile ? window.innerHeight * 1.5 : window.innerHeight * 2;
+    const progress = Math.max(0, Math.min(1, window.scrollY / progressRange));
+    const startOffset = isMobile ? -30 : -60;
+    const endOffset = isMobile ? 10 : 0;
+    const rightValue = startOffset + progress * (endOffset - startOffset);
     earthImg.style.right = `${rightValue}%`;
   }
 
@@ -91,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let currentIndex = 0;
-  let textTimeout = null;
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
@@ -128,13 +132,23 @@ document.addEventListener("DOMContentLoaded", () => {
   function setText(index) {
     if (!storyData[index]) return;
 
-    legendText.style.opacity = "0";
+    let textSpan = legendText.querySelector(".legend-text");
+    if (!textSpan) {
+      legendText.innerHTML = `<span class="legend-text legend-text-${index + 1}"></span>`;
+      textSpan = legendText.querySelector(".legend-text");
+    }
 
-    clearTimeout(textTimeout);
-    textTimeout = setTimeout(() => {
-      legendText.innerHTML = `<span class="legend-text-${index + 1}">${storyData[index]}</span>`;
-      legendText.style.opacity = "1";
-    }, 120);
+    textSpan.className = `legend-text legend-text-${index + 1}`;
+    textSpan.innerHTML = `${storyData[index]}<br><small style="font-size: 0.75rem; opacity: 0.7; margin-top: 0.5rem; display: block;">${index + 1}/${storyData.length}</small>`;
+
+    // Position textbox at top for slide 5 (index 4) in mobile
+    if (legendOverlay && window.innerWidth <= 768) {
+      if (index === 4) {
+        legendOverlay.classList.add("align-top");
+      } else {
+        legendOverlay.classList.remove("align-top");
+      }
+    }
   }
 
   function updateScrolly() {
@@ -154,10 +168,13 @@ document.addEventListener("DOMContentLoaded", () => {
     setScene(index, localProgress);
   }
 
+  let updateVulkanTextScroll = () => {};
+
   function onScroll() {
     updateCurrentSection();
     updateScrolly();
     updateEarth();
+    updateVulkanTextScroll();
   }
 
   setText(0);
@@ -165,4 +182,126 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
+
+  // Activity section slide-in animation
+  const activityBox = document.querySelector('.activity-overlay-box');
+  const activitySection = document.querySelector('.activity-section');
+  if (activityBox && activitySection) {
+    activityBox.classList.remove('slide-in');
+
+    const revealActivity = () => {
+      if (activityBox.classList.contains('slide-in')) return;
+      const rect = activitySection.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.6) {
+        activityBox.classList.add('slide-in');
+      }
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activityBox.classList.add('slide-in');
+          observer.unobserve(activitySection);
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px'
+    });
+    observer.observe(activitySection);
+
+    revealActivity();
+    window.addEventListener('scroll', revealActivity, { passive: true });
+  }
+
+  // Vulkan section text animation (scroll-linked)
+  const vulkanSection = document.querySelector('.vulkan-section');
+  const kraterText = document.getElementById('krater');
+  const schichtenText = document.getElementById('schichten');
+
+  if (vulkanSection && kraterText && schichtenText) {
+    let observerVulkan = null;
+    let vulkanMode = "";
+
+    const resetInlineVulkanStyles = () => {
+      kraterText.style.transform = "";
+      kraterText.style.opacity = "";
+      kraterText.style.visibility = "";
+      schichtenText.style.transform = "";
+      schichtenText.style.opacity = "";
+      schichtenText.style.visibility = "";
+    };
+
+    const setupVulkanAnimation = () => {
+      const isMobile = window.innerWidth <= 768;
+      const nextMode = isMobile ? "mobile" : "desktop";
+      if (vulkanMode === nextMode) return;
+
+      if (observerVulkan) {
+        observerVulkan.disconnect();
+        observerVulkan = null;
+      }
+
+      if (isMobile) {
+        updateVulkanTextScroll = () => {};
+        resetInlineVulkanStyles();
+        kraterText.classList.remove('slide-in');
+        schichtenText.classList.remove('slide-in');
+
+        observerVulkan = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                kraterText.classList.add('slide-in');
+              }, 180);
+              setTimeout(() => {
+                schichtenText.classList.add('slide-in');
+              }, 520);
+            }
+
+            if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
+              kraterText.classList.remove('slide-in');
+              schichtenText.classList.remove('slide-in');
+            }
+          });
+        }, {
+          threshold: 0.45,
+        });
+
+        observerVulkan.observe(vulkanSection);
+      } else {
+        kraterText.classList.remove('slide-in');
+        schichtenText.classList.remove('slide-in');
+
+        updateVulkanTextScroll = () => {
+          const rect = vulkanSection.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+
+          const start = viewportHeight * 0.95;
+          const end = -viewportHeight * 0.35;
+          const progress = clamp((start - rect.top) / (start - end), 0, 1);
+
+          const applyMotion = (element, delay = 0) => {
+            const delayedProgress = clamp((progress - delay) / (1 - delay), 0, 1);
+            const offsetY = (1 - delayedProgress) * viewportHeight;
+            const opacity = clamp((delayedProgress - 0.08) / 0.32, 0, 1);
+
+            element.style.transform = `translateY(${offsetY}px)`;
+            element.style.opacity = String(opacity);
+            element.style.visibility = opacity > 0.01 ? 'visible' : 'hidden';
+          };
+
+          applyMotion(kraterText, 0);
+          applyMotion(schichtenText, 0.12);
+        };
+
+        updateVulkanTextScroll();
+      }
+
+      vulkanMode = nextMode;
+    };
+
+    setupVulkanAnimation();
+    window.addEventListener('resize', setupVulkanAnimation);
+  }
 });
